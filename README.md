@@ -4,4 +4,4 @@
 
 It captures and logs CAN traffic, and outputs logs over **USB (Virtual COM Port)** and/or **Ethernet (TCP/UDP)**
 
-Inteded to work with SocketCAN through SLCAN
+Intended to work with SocketCAN through SLCAN

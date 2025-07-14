@@ -1,0 +1,24 @@
+# Build artifacts
+/build/
+*.o
+*.d
+*.elf
+*.map
+*.hex
+*.bin
+*.lst
+*.axf
+
+# STM32CubeIDE-specific
+*.launch
+.settings/
+.cproject
+.project
+
+# VSCode 
+.vscode/
+
+# Temporary files
+*.log
+*.tmp
+*~
