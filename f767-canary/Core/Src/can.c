@@ -55,6 +55,28 @@ void MX_CAN1_Init(void)
   }
   /* USER CODE BEGIN CAN1_Init 2 */
 
+  // Set filter to receive any message
+  CAN_FilterTypeDef canFilterConfig;
+  canFilterConfig.FilterActivation = CAN_FILTER_ENABLE;
+  canFilterConfig.FilterBank = 0;
+  canFilterConfig.FilterFIFOAssignment = CAN_FILTER_FIFO0;
+  canFilterConfig.FilterIdHigh = 0x0000;
+  canFilterConfig.FilterIdLow = 0x0000;
+  canFilterConfig.FilterMaskIdHigh = 0x0000;
+  canFilterConfig.FilterMaskIdLow = 0x0000;
+  canFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
+  canFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
+  // canFilterConfig.SlaveStartFilterBank = 14;
+
+  HAL_CAN_ConfigFilter(&hcan1, &canFilterConfig);
+
+  // Start CAN peripheral
+  HAL_CAN_Start(&hcan1);
+
+  // Enable RX interrupt
+  // TODO: Enable Tx interrupt and add status message whether message was successfully sent
+  HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
+
   /* USER CODE END CAN1_Init 2 */
 
 }
@@ -118,5 +140,24 @@ void HAL_CAN_MspDeInit(CAN_HandleTypeDef* canHandle)
 }
 
 /* USER CODE BEGIN 1 */
+
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
+  CAN_RxHeaderTypeDef rxHeader;
+  uint8_t             buf[8];
+
+  // Retrieve CAN message
+  if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rxHeader, buf) != HAL_OK) {
+    // TODO: Notify error maybe
+    return;
+  }
+
+  // TODO
+  // Create Serial message and add to RX CDC task queue
+  // Standard Frame: t<ID><DLC><DATA>\r
+  // Standard Frame: T<ID><DLC><DATA>\r
+
+
+  // Optional: Implement print on TFT display
+}
 
 /* USER CODE END 1 */

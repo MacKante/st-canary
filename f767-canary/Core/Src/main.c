@@ -21,6 +21,7 @@
 #include "cmsis_os.h"
 #include "can.h"
 #include "usart.h"
+#include "usb_device.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
